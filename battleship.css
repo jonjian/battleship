@@ -1,0 +1,25 @@
+.main_title {
+  display: inline;
+}
+
+.game_board {
+  position: relative;
+  border-collapse: collapse;
+  float: left;
+  margin-top: 5%;
+  width: 500px;
+  height: 500px;
+}
+
+#player1_board {
+ padding-left: 5%;
+}
+
+#player2_board { 
+  padding-top: 2.3%;
+  padding-left: 60%
+}
+
+.cell {
+  border: 1px solid black;
+}
