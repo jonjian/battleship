@@ -43,7 +43,7 @@ const controller = {
           model.player1Board[num] = 3
           view.displayMessage('Player 2 Missed!')
           document.getElementById(`player1_cell_${num}`).setAttribute("class", 'shipMiss')
-          model.turn = 'player2'
+          model.turn = 'player1'
           break;
         case 1:
           model.player1Board[num] = 2
@@ -52,7 +52,7 @@ const controller = {
           model.player1Ships -= 1
           if (model.player1Ships > 0) {
             if (model.player1Ships > 1) {
-              view.displayMessage(`PLayer 2 has Sunk a Ship! Player 1 has ${model.player1Ships} ships left!`)
+              view.displayMessage(`Player 2 has Sunk a Ship! Player 1 has ${model.player1Ships} ships left!`)
             } else {
               view.displayMessage(`Player 1's forces grow weak, they have 1 ship left!`)
             }
@@ -60,12 +60,13 @@ const controller = {
             if (!model.playerAlreadyWon) {
               alert(`Congratulations Player 2! You won!`)
               view.displayMessage(`Player 2 Won!`)
+              createVictor()
               model.playerAlreadyWon = true
             } else {
               view.displayMessage(`Player 2 won from the dead!`)
             }
           }
-          model.turn = 'player2'
+          model.turn = 'player1'
           break;
         case 2:
           alert('Sunk: They\'re already dead! Have mercy and attack somewhere else!')
@@ -110,7 +111,7 @@ const controller = {
           model.player2Board[num] = 3
           view.displayMessage('Miss!')
           document.getElementById(`player2_cell_${num}`).setAttribute("class", 'shipMiss')
-          model.turn = 'player1'
+          model.turn = 'player2'
           break;
         case 1:
           model.player2Board[num] = 2
@@ -127,12 +128,13 @@ const controller = {
             if (!model.playerAlreadyWon) {
               alert(`Congratulations Player 1! You won!`)
               view.displayMessage(`Player 1 Won!`)
+              createVictor()
               model.playerAlreadyWon = true
             } else {
               view.displayMessage(`Player 1 won from the dead!`)
             }
           }
-          model.turn = 'player1'
+          model.turn = 'player2'
           break;
         case 2:
           alert('Sunk: They\'re already dead! Have mercy and attack somewhere else!')
@@ -179,6 +181,20 @@ const bindBoardClickToKeys = () => {
     key = document.getElementById(`player2_cell_${i.toString()}`)
     model.player2Keys.push(key.addEventListener("click", () => controller.player2BoardKeyClick(i)))
   }
+}
+
+const createVictor = () => {
+  const imgNode = document.createElement("IMG")
+  const classAttr = document.createAttribute("src")
+  classAttr.value = "stickFigure.png"
+  imgNode.setAttributeNode(classAttr)
+  imgNode.setAttribute("id", "victor")
+  const imgTextNode = document.createElement("H4")
+  const text = document.createTextNode("Victor")
+  imgTextNode.appendChild(text)
+  imgTextNode.setAttribute("id", "victor_title")
+  document.getElementById("victor_container").appendChild(imgNode)
+  document.getElementById("victor_container").appendChild(imgTextNode)
 }
 
 init = () => {
