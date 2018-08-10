@@ -1,14 +1,9 @@
 const model = {
-  /* 0 = empty
-     1 = ship
-     2 = hit
-     3 = miss
-  */
-  player1Board: [0,0,0,0,0,
-                  0,0,0,0,0,
-                  0,0,0,0,0,
-                  0,0,0,0,0,
-                  0,0,0,0,0],
+  player1Board: [0,0,0,0,0,    // 0 = empty             
+                  0,0,0,0,0,   // 1 = ship    
+                  0,0,0,0,0,   // 2 = hit  
+                  0,0,0,0,0,   // 3 = miss      
+                  0,0,0,0,0],                
   player2Board: [0,0,0,0,0,
                   0,0,0,0,0,
                   0,0,0,0,0,
@@ -30,7 +25,14 @@ const view = {
     const textnode = document.createTextNode(`${timeStamp}: ${msg}`)
     node.appendChild(textnode)
     document.getElementById("messages").appendChild(node)
+    //scroll down after new message
+    const elem = document.getElementById("message_area");
+    elem.scrollTop = elem.scrollHeight;
   },
+}
+
+function scrollToBottom(messages) {
+  messages.scrollTop = messages.scrollHeight;
 }
 
 const controller = {
@@ -41,10 +43,12 @@ const controller = {
         case 0:
           model.player1Board[num] = 3
           view.displayMessage('Miss!')
+          document.getElementById(`player1_cell_${num}`).setAttribute("class", 'shipMiss')
           break;
         case 1:
           model.player1Board[num] = 2
           view.displayMessage('Hit!')
+          document.getElementById(`player1_cell_${num}`).setAttribute("class", 'shipHit')
           model.player1Ships -= 1
           if (model.player1Ships > 0) {
             if (model.player1Ships > 1) {
@@ -54,6 +58,7 @@ const controller = {
             }
           } else {
             alert(`Congratulations Player 2! You won!`)
+            view.displayMessage(`Player 2 Won!`)
           }
           break;
         case 2:
@@ -92,10 +97,12 @@ const controller = {
         case 0:
           model.player2Board[num] = 3
           view.displayMessage('Miss!')
+          document.getElementById(`player2_cell_${num}`).setAttribute("class", 'shipMiss')
           break;
         case 1:
           model.player2Board[num] = 2
           view.displayMessage('Hit!')
+          document.getElementById(`player2_cell_${num}`).setAttribute("class", 'shipHit')
           model.player2Ships -= 1
           if (model.player2Ships > 0) {
             if (model.player1Ships > 1) {
@@ -105,6 +112,7 @@ const controller = {
             }
           } else {
             alert(`Congratulations Player 1! You won!`)
+            view.displayMessage(`Player 1 Won!`)
           }
           break;
         case 2:

@@ -17,30 +17,28 @@
 }
 
 #player1_board {
- padding-left: 5%;
+ margin-left: 1%;
  float: left;
 }
 
 #player2_board { 
-  float: left;
+  margin-right: 1%;
+  float: right;
 }
 
 #message_board {
-  margin-left: 5%;
-  margin-right: 5%;
+  margin-left: 7%;
   float: left;
 }
 
 #message_title {
-  text-align: center;
+  position: relative;
 }
 
 #message_area {
   text-align: left;
-}
-
-#messages {
-  
+  overflow-y: auto;
+  height: 500px;
 }
 
 .player1_name {
@@ -53,4 +51,24 @@
 
 .cell {
   border: 1px solid black;
+  background-color: aqua;
+}
+
+.shipHit {
+  border: 1px solid black;
+  background-color: rgb(48, 220, 0);
+}
+
+.shipMiss {
+  border: 1px solid black;
+  background-color: red;
+}
+
+.new_game_button {
+  display: inline;
+  margin-left: 38%;
+}
+
+.nav_bar {
+  display: inline;
 }
