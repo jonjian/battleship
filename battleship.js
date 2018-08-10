@@ -41,13 +41,13 @@ const controller = {
       switch (model.player1Board[num]) {
         case 0:
           model.player1Board[num] = 3
-          view.displayMessage('Player 2 Missed!')
+          view.displayMessage('Player 2 missed!')
           document.getElementById(`player1_cell_${num}`).setAttribute("class", 'shipMiss')
           model.turn = 'player1'
           break;
         case 1:
           model.player1Board[num] = 2
-          view.displayMessage('Player 2 Hit!')
+          view.displayMessage('Player 2 hit a ship!')
           document.getElementById(`player1_cell_${num}`).setAttribute("class", 'shipHit')
           model.player1Ships -= 1
           if (model.player1Ships > 0) {
@@ -109,13 +109,13 @@ const controller = {
       switch (model.player2Board[num]) {
         case 0:
           model.player2Board[num] = 3
-          view.displayMessage('Miss!')
+          view.displayMessage('Player 1 missed!')
           document.getElementById(`player2_cell_${num}`).setAttribute("class", 'shipMiss')
           model.turn = 'player2'
           break;
         case 1:
           model.player2Board[num] = 2
-          view.displayMessage('Hit!')
+          view.displayMessage('Player 1 hit a ship!')
           document.getElementById(`player2_cell_${num}`).setAttribute("class", 'shipHit')
           model.player2Ships -= 1
           if (model.player2Ships > 0) {
