@@ -26,9 +26,21 @@
 }
 
 #message_board {
-  padding-right: 10%;
-  padding-left: 10%;
+  margin-left: 5%;
+  margin-right: 5%;
   float: left;
+}
+
+#message_title {
+  text-align: center;
+}
+
+#message_area {
+  text-align: left;
+}
+
+#messages {
+  
 }
 
 .player1_name {
