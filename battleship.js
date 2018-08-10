@@ -15,6 +15,8 @@ const model = {
   player2LoadedShips: false,
   player1Keys: [],
   player2Keys: [],
+  playerAlreadyWon: false,
+  turn: 'player1',
 }
 
 const view = {
@@ -31,35 +33,39 @@ const view = {
   },
 }
 
-function scrollToBottom(messages) {
-  messages.scrollTop = messages.scrollHeight;
-}
-
 const controller = {
   player1BoardKeyClick: num => {
+    if ((model.turn === 'player1' && !model.player1LoadedShips) || (model.turn === 'player2' && model.player1LoadedShips && model.player2LoadedShips)) {
     // fire
     if (model.player1LoadedShips) {
       switch (model.player1Board[num]) {
         case 0:
           model.player1Board[num] = 3
-          view.displayMessage('Miss!')
+          view.displayMessage('Player 2 Missed!')
           document.getElementById(`player1_cell_${num}`).setAttribute("class", 'shipMiss')
+          model.turn = 'player2'
           break;
         case 1:
           model.player1Board[num] = 2
-          view.displayMessage('Hit!')
+          view.displayMessage('Player 2 Hit!')
           document.getElementById(`player1_cell_${num}`).setAttribute("class", 'shipHit')
           model.player1Ships -= 1
           if (model.player1Ships > 0) {
             if (model.player1Ships > 1) {
-              view.displayMessage(`You have Sunk a Ship! Player 1 has ${model.player2Ships} ships left!`)
+              view.displayMessage(`PLayer 2 has Sunk a Ship! Player 1 has ${model.player1Ships} ships left!`)
             } else {
-              view.displayMessage(`Their forces grow weak, Player 1 has 1 ship left!`)
+              view.displayMessage(`Player 1's forces grow weak, they have 1 ship left!`)
             }
           } else {
-            alert(`Congratulations Player 2! You won!`)
-            view.displayMessage(`Player 2 Won!`)
+            if (!model.playerAlreadyWon) {
+              alert(`Congratulations Player 2! You won!`)
+              view.displayMessage(`Player 2 Won!`)
+              model.playerAlreadyWon = true
+            } else {
+              view.displayMessage(`Player 2 won from the dead!`)
+            }
           }
+          model.turn = 'player2'
           break;
         case 2:
           alert('Sunk: They\'re already dead! Have mercy and attack somewhere else!')
@@ -77,20 +83,26 @@ const controller = {
         model.player1Board[num] = 1
         model.player1Ships += 1
         if (model.player1Ships > 1) {
-          view.displayMessage(`${model.player1Ships} Ships Placed!`)
+          view.displayMessage(`Player 1 has placed ${model.player1Ships} ships!`)
         } else {
-          view.displayMessage(`1 Ship Placed!`)
+          view.displayMessage(`Player 1 has placed 1 ship!`)
         }
       } else {
         alert('Tile Occupied: Due to complaints from ship captains, we are no longer allowed to stack ships on top of each other. Please place your ship in an empty tile.')
       }
       if (model.player1Ships === 3) {
         model.player1LoadedShips = true
+        model.turn = 'player2'
+        view.displayMessage(`Player 1 has placed all ships, Player 2's turn to place ships`)
       }
     }
+  } else {
+    alert('It is not your turn! Even in stressful times of war, we must not cheat.')
+  }
     console.log('click on p1 tile: ',num)
   },
   player2BoardKeyClick: num => {
+    if ((model.turn === 'player2' && !model.player2LoadedShips) || (model.turn === 'player1' && model.player2LoadedShips)) {
     //fire
     if (model.player2LoadedShips) {
       switch (model.player2Board[num]) {
@@ -98,6 +110,7 @@ const controller = {
           model.player2Board[num] = 3
           view.displayMessage('Miss!')
           document.getElementById(`player2_cell_${num}`).setAttribute("class", 'shipMiss')
+          model.turn = 'player1'
           break;
         case 1:
           model.player2Board[num] = 2
@@ -105,15 +118,21 @@ const controller = {
           document.getElementById(`player2_cell_${num}`).setAttribute("class", 'shipHit')
           model.player2Ships -= 1
           if (model.player2Ships > 0) {
-            if (model.player1Ships > 1) {
-              view.displayMessage(`You have Sunk a Ship! Player 2 has ${model.player2Ships} ships left!`)
+            if (model.player2Ships > 1) {
+              view.displayMessage(`Player1 has Sunk a Ship! Player 2 has ${model.player2Ships} ships left!`)
             } else {
-              view.displayMessage(`Their forces grow weak, Player 2 has 1 ship left!`)
+              view.displayMessage(`Player 2's forces grow weak, they have 1 ship left!`)
             }
           } else {
-            alert(`Congratulations Player 1! You won!`)
-            view.displayMessage(`Player 1 Won!`)
+            if (!model.playerAlreadyWon) {
+              alert(`Congratulations Player 1! You won!`)
+              view.displayMessage(`Player 1 Won!`)
+              model.playerAlreadyWon = true
+            } else {
+              view.displayMessage(`Player 1 won from the dead!`)
+            }
           }
+          model.turn = 'player1'
           break;
         case 2:
           alert('Sunk: They\'re already dead! Have mercy and attack somewhere else!')
@@ -131,19 +150,24 @@ const controller = {
         model.player2Board[num] = 1
         model.player2Ships += 1
         if (model.player2Ships > 1) {
-          view.displayMessage(`${model.player2Ships} Ships Placed!`)
+          view.displayMessage(`Player 2 has placed ${model.player2Ships} ships!`)
         } else {
-          view.displayMessage(`1 Ship Placed!`)
+          view.displayMessage(`Player 2 has placed 1 ship!`)
         }
       } else {
         alert('Tile Occupied: Due to complaints from ship captains, we are no longer allowed to stack ships on top of each other. Please place your ship in an empty tile.')
       }
       if (model.player2Ships === 3) {
         model.player2LoadedShips = true
+        model.turn = 'player1'
+        view.displayMessage(`Player 2 has placed all ships, Player 1 start!`)
       }
     }
-    console.log('click on p2 tile: ', num)
+  } else {
+    alert('It is not your turn! Even in stressful times of war, we must not cheat.')
   }
+  console.log('click on p2 tile: ', num)
+}
 }
 
 const bindBoardClickToKeys = () => {
@@ -161,6 +185,7 @@ init = () => {
   bindBoardClickToKeys()
   view.displayMessage('Hello! Please read instructions..')
   console.log('finish init render')
+  return 'complete'
 }
 
 window.onload = init
