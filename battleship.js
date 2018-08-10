@@ -27,26 +27,23 @@ const view = {
 }
 
 const controller = {
-  boardKeyClick: () => {
-    console.log('click')
+  player1BoardKeyClick: num => {
+    console.log(num)
+  },
+  player2BoardKeyClick: num => {
+    console.log(num)
   }
 }
 
 const bindBoardClickToKeys = () => {
-  let num1 = 0
-  let num2 = 25
-  //player1
   for (let i = 0; i < 25; i += 1) {
     //player 1
-    let key = document.getElementById(`player1_cell_${num1}`)
-    model.player1Keys.push(key.addEventListener("click", () => controller.boardKeyClick(num1.toString())))
-    num1 += 1
+    let key = document.getElementById(`player1_cell_${i.toString()}`)
+    model.player1Keys.push(key.addEventListener("click", () => controller.player1BoardKeyClick(i)))
     //player 2
-    key = document.getElementById(`player2_cell_${num2.toString()}`)
-    model.player2Keys.push(key.addEventListener("click", () => controller.boardKeyClick(num2.toString())))
-    num2 += 1
+    key = document.getElementById(`player2_cell_${i.toString()}`)
+    model.player2Keys.push(key.addEventListener("click", () => controller.player2BoardKeyClick(i)))
   }
-
 }
 
 init = () => {
