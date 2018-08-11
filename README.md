@@ -14,8 +14,7 @@ runTestingSuite()
 
 ### Notes on Test Suite - Please Read
 1. Will need to run on new/fresh page and will need to refresh page after to play a new game
-2. If one test fails, all the following will fail. Solve errors in order they arrive.
-3. Do not click anything until tests finish.
+2. Do not click anything until tests finish.
 
 ## Instructions to Play
 
