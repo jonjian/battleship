@@ -1,6 +1,6 @@
 # mini Battleship
 
-## Getting STarted
+## Getting Started
 
 Open HTML file in browser
 
